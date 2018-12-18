@@ -54,7 +54,7 @@ var ImgFigure = React.createClass ({
 
 
     var imgFigureClassName = "img-figure";
-        imgFigureClassName += this.props.arrange.isInverse? ' is-inverse' : '';
+    imgFigureClassName += this.props.arrange.isInverse ? ' is-inverse' : '';
 
     return(
       <figure className="img-figure" style={styleObj} onClick={this.handleClick}>
