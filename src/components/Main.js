@@ -3,9 +3,12 @@ require('styles/App.scss');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ImgFigure from './ImgFigure.js';
+import ControllerUnits from './ControllerUnits.js';
 
 let imagesDatas = require('json!../data/imagesData.json');
 
+// 把图片json转成图片路径
 function genImageURL (imagesDatasArr){
   for(var i = 0,j = imagesDatasArr.length; i<j;i++){
     var singleImageData = imagesDatasArr[i]
@@ -26,89 +29,7 @@ function get30DegRandom(){
   return ((Math.random()>0.5? '':'')+Math.ceil( Math.random() * 30 ));
 }
 
-var ImgFigure = React.createClass ({
-  /*
-    *imgFigure的点击处理函数
-  */
-  handleClick: function(e){
-    if(this.props.arrange.isCenter){
-      this.props.inverse();
-    }else{
-      this.props.center();
-    }
-    e.stopPropagation();
-    e.preventDefault();
-  },
-
-  render: function(){
-    var styleObj = {};
-
-    //  如果props属性中指定了这张图片的位置,则使用
-    if(this.props.arrange.pos){
-      styleObj = this.props.arrange.pos;
-    }
-
-    //  如果图片的旋转角度有值并且不为0,添加旋转
-    if(this.props.arrange.rotate){
-      (['MozTransform','msTransform','WebkitTransform','transform']).forEach(function(value){
-        styleObj[value] = 'rotate(' + this.props.arrange.rotate + 'deg)';
-      }.bind(this));
-    }
-
-    if(this.props.arrange.isCenter){
-      styleObj.zIndex = 11;
-    }
-    
-    var imgFigureClassName = "img-figure";
-    imgFigureClassName += this.props.arrange.isInverse ? ' is-inverse' : '';
-
-    return(
-      <figure className={imgFigureClassName} style={styleObj} onClick={this.handleClick}>
-        <img src={this.props.data.imageURL} alt={this.props.data.title}/>
-        <figcaption>
-          <h2 className="img-title">{this.props.data.title}</h2>
-          <div className="img-back" onClick={this.handleClick}>
-            <p> {this.props.data.desc} </p>
-          </div>
-        </figcaption>
-      </figure>
-    );
-  }
-});
-
-// 控制组件
-var ControllerUnits = React.createClass({
-  handleClick: function(e){
-
-    //  如果点击的是当前正在选中态的按钮,则翻转图片,否则将对应的图片居中
-    if (this.props.arrange.isCenter){
-      this.props.inverse();
-    } else {
-      this.props.center();
-    }
-
-    e.preventDefault();
-    e.stopPropagation();
-  },
-  render: function(){
-    var controllerUnitsClassName = "controller-unit";
-    
-    //  如果对应的是居中图片，显示控制按钮的居状态
-    if(this.props.arrange.isCenter){
-        controllerUnitsClassName += " is-center";
-    }
-    //如果是同时对应的是翻转图片,显示控制按钮的翻转态
-    if(this.props.arrange.isInverse){
-      controllerUnitsClassName += " is-inverse";
-    }
-
-    return(
-      <span className={controllerUnitsClassName} onClick={this.handleClick}></span>
-    );
-  }
-})
-
-var App = React.createClass ({
+var GalleryByReactApp = React.createClass ({
   Constant: {
     conterPos:{
       left: 0,
@@ -305,7 +226,6 @@ var App = React.createClass ({
 
     }.bind(this));
 
-    
     return (
       <section className = "stage" ref="stage">
         <section className = "img-sec">
@@ -319,4 +239,4 @@ var App = React.createClass ({
   }
 })
 
-export default App;
+export default GalleryByReactApp;
